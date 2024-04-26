@@ -4,6 +4,15 @@
 ## Terraform configuration
 
 terraform {
+
+  cloud {
+    organization = "example-org-8edc5c"
+
+    workspaces {
+      name = "test"
+    }
+  }
+
   required_providers {
     random = {
       source  = "hashicorp/random"
