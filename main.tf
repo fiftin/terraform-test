@@ -20,7 +20,7 @@ data "digitalocean_ssh_key" "denguk" {
 resource "digitalocean_droplet" "www-1" {
   image = "ubuntu-23-10-x64"
   name = "www-1"
-  region = "ams3"
+  region = "ams1"
   size = "s-1vcpu-1gb"
   ssh_keys = [
     data.digitalocean_ssh_key.denguk.id
