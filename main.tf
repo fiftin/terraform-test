@@ -1,29 +1,28 @@
-# Copyright (c) HashiCorp, Inc.
-# SPDX-License-Identifier: MPL-2.0
-
-## Terraform configuration
-
 terraform {
-
   required_providers {
-    random = {
-      source  = "hashicorp/random"
-      version = "3.3.2"
+    digitalocean = {
+      source  = "digitalocean/digitalocean"
+      version = "~> 2.0"
     }
   }
-  required_version = ">= 1.1.0"
 }
 
-variable "name_length" {
-  description = "The number of words in the pet name"
-  default     = "3"
+variable "do_token" {}
+
+provider "digitalocean" {
+  token = var.do_token
 }
 
-resource "random_pet" "pet_name" {
-  length    = var.name_length
-  separator = "2"
+data "digitalocean_ssh_key" "denguk" {
+  name = "denguk"
 }
 
-output "pet_name" {
-  value = random_pet.pet_name.id
+resource "digitalocean_droplet" "www-1" {
+  image = "ubuntu-18-04-x64"
+  name = "www-1"
+  region = "nyc2"
+  size = "s-1vcpu-1gb"
+  ssh_keys = [
+    data.digitalocean_ssh_key.terraform.id
+  ]
 }
